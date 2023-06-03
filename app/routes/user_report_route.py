@@ -8,7 +8,11 @@ from app.models.user_report.update_user_report import (
     UpdateUserReportRequest,
     UpdateUserReportResponse,
 )
-
+from app.services.report import (
+    entry_user_report_service,
+    list_user_report_service,
+    update_user_report_service,
+)
 
 user_report_router = APIRouter(prefix="/report", tags=["report"])
 
@@ -16,7 +20,8 @@ user_report_router = APIRouter(prefix="/report", tags=["report"])
 @user_report_router.post("", response_model=EntryUserReportResponse)
 async def post_user_report(request: EntryUserReportRequest):
     """ユースケース1: ユーザがHelpを申請する"""
-    return EntryUserReportResponse(request_id="sample")
+    user_report_id = entry_user_report_service.execute(request)
+    return EntryUserReportResponse(request_id=user_report_id)
 
 
 @user_report_router.put(
@@ -24,10 +29,12 @@ async def post_user_report(request: EntryUserReportRequest):
 )
 async def put_user_report(request_id: str, request: UpdateUserReportRequest):
     """ユースケース3: ユーザがヘルプ情報を更新する"""
-    return UpdateUserReportResponse(request_id=request_id)
+    user_report_id = update_user_report_service.execute(request_id, request)
+    return UpdateUserReportResponse(request_id=user_report_id)
 
 
 @user_report_router.get("", response_model=ListUserReportResponse)
 async def get_user_reports():
     """ユースケース2: 申告内容の一覧を取得する"""
-    return []
+    list_user_report = list_user_report_service.execute()
+    return ListUserReportResponse(user_reports=list_user_report)
