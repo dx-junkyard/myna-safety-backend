@@ -19,8 +19,10 @@ async def post_user_report(request: EntryUserReportRequest):
     return EntryUserReportResponse(request_id="sample")
 
 
-@user_report_router.put("/{request_id}", response_model=UpdateUserReportResponse)
-async def post_user_report(request_id: str, request: UpdateUserReportRequest):
+@user_report_router.put(
+    "/{request_id}", response_model=UpdateUserReportResponse
+)
+async def put_user_report(request_id: str, request: UpdateUserReportRequest):
     """ユースケース3: ユーザがヘルプ情報を更新する"""
     return UpdateUserReportResponse(request_id=request_id)
 

@@ -12,9 +12,7 @@ class MynaApi:
         }
 
     def _set_auth_code(self, code: str):
-        return {
-            "auth_code": (None, f"{code}"),
-        }
+        return {"auth_code": (None, f"{code}")}
 
     def request(self, code: str, path: str) -> requests.Response:
         """マイナポータルAPIにリクエストする
@@ -34,5 +32,5 @@ class MynaApi:
 
 
 ma = MynaApi()
-print(ma.request("1234","90").json())
+print(ma.request("1234", "90").json())
 print(ma.request("1234", "1").json())
