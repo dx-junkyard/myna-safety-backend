@@ -27,7 +27,8 @@ def test_post_user_report(mocker):
     assert "request_id" in response_body
 
 
-def test_put_user_report():
+def test_put_user_report(mocker):
+    test_post_user_report(mocker)
     # Given
     request_id = "abc"
     request_body = {
@@ -47,7 +48,8 @@ def test_put_user_report():
     assert "request_id" in response_body
 
 
-def test_get_user_reports():
+def test_get_user_reports(mocker):
+    test_post_user_report(mocker)
     # When
     response = client.get("/report")
 

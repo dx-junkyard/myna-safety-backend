@@ -1,5 +1,8 @@
 from typing import List
 from app.models.user_report.domain import UserReportModel
+from app.models.user_report.update_user_report import (
+    UpdateUserReportRequestDto,
+)
 
 from app.repositories import db
 
@@ -16,14 +19,28 @@ def add_user_report(id: str, content: UserReportModel):
     db.add(collection=COLLECTION_PREFIX, id=id, content=content.dict())
 
 
-def update_user_report(id: str, content: UserReportModel):
+def update_user_report(id: str, content: UpdateUserReportRequestDto):
     """ユーザレポートの更新
 
     Args:
         id (str): ユーザレポートid
         content (UserReportModel): 登録するユーザレポートの内容
     """
-    db.add(collection=COLLECTION_PREFIX, id=id, content=content.dict())
+    user_report_dict = db.fetch(collection=COLLECTION_PREFIX, id=id)
+
+    # 差分のあるアイテムを見つける
+    patch_items = [
+        k for k in content.dict().keys() if content.dict()[k] is not None
+    ]
+
+    # もし差分アイテムが見つかれば、UserPatchModelから新しい辞書を生成する
+    patch_dict = {k: v for k, v in content.dict().items() if k in patch_items}
+
+    # 新しい差分のある辞書を元のユーザー情報にマージする
+    updated_user_report_dict = {**user_report_dict, **patch_dict}
+    db.add(
+        collection=COLLECTION_PREFIX, id=id, content=updated_user_report_dict
+    )
 
 
 def list_user_report() -> List[UserReportModel]:

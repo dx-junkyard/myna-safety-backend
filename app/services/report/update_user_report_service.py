@@ -1,6 +1,10 @@
 from app.models.user_report.domain import UserReportModel
-from app.models.user_report.update_user_report import UpdateUserReportRequest
+from app.models.user_report.update_user_report import (
+    UpdateUserReportRequest,
+    UpdateUserReportRequestDto,
+)
 from app.repositories import user_report
+from app.utils import now
 
 
 def execute(request_id: str, request: UpdateUserReportRequest) -> str:
@@ -13,10 +17,10 @@ def execute(request_id: str, request: UpdateUserReportRequest) -> str:
     Returns:
         str: 更新が完了したユーザレポートのID
     """
-    update_user_report_model: UserReportModel = UserReportModel.parse_obj(
-        {
-            **request.dict(),
-        },
+    update_user_report_model: UpdateUserReportRequestDto = (
+        UpdateUserReportRequestDto.parse_obj(
+            {**request.dict(), "updated_at": now()},
+        )
     )
     user_report.update_user_report(request_id, update_user_report_model)
 

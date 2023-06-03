@@ -5,7 +5,7 @@ from app.models.user_report.domain import (
 )
 from app.models.user_report.entry_user_report import EntryUserReportRequest
 from app.repositories import user_report
-from app.utils import generate_id_str
+from app.utils import generate_id_str, now
 
 
 def execute(request: EntryUserReportRequest) -> str:
@@ -24,6 +24,7 @@ def execute(request: EntryUserReportRequest) -> str:
             **request.dict(),
             "report_level": ReportLevel.MIDDLE,
             "report_status": ReportStatus.NO_ASSIGN,
+            "created_at": now(),
         },
     )
     user_report.add_user_report(id, user_report_model)

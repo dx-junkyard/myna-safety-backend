@@ -1,5 +1,9 @@
+from datetime import datetime
 from enum import Enum
+from typing import Union
 from pydantic import BaseModel, Field
+
+from app.utils import now
 
 
 class Location(BaseModel):
@@ -26,3 +30,5 @@ class UserReportModel(BaseModel):
     content: str = Field(..., description="報告内容、選択式にする？")
     report_level: ReportLevel = Field(..., description="申告内容の深刻度")
     report_status: ReportStatus = Field(..., description="申告内容の状態")
+    created_at: datetime = Field(now(), description="作成時間")
+    updated_at: Union[datetime, None] = Field(None, description="最終更新時間")
