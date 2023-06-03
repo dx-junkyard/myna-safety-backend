@@ -1,10 +1,10 @@
-# python gcp linebot
+# Myna Safety Backend
 
-GCP で FastAPI を利用した LINEBot を構築する際のテンプレートです。
+マイナポータルハッカソンのバックエンドです。
 
 ## Quick Start
 
-はじめに仮想環境と必要ライブラリをインストーするする。
+はじめに仮想環境と必要ライブラリをインストーする。
 
 ```sh:
 poetry install
@@ -19,20 +19,5 @@ source .env
 下記のコマンドで起動する
 
 ```sh:
-poetry run uvicorn app.main:app --host 0.0.0.0 --port 8080
-```
-
-## GCP にデプロイ
-
-はじめに gcp の設定を行う
-
-```sh:
-cd terraform
-bash - ./init.sh
-```
-
-その後下記のコマンドでリソースをデプロイする
-
-```sh:
-terraform apply
+poetry run uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
 ```
