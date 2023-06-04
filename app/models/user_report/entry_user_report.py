@@ -9,7 +9,7 @@ class EntryUserReportRequest(BaseModel):
 
     user_id: str = Field(..., description="UserID、LINEのIDなど？")
     location: Location = Field(..., description="申告者の位置情報")
-    content: str = Field(..., description="報告内容、選択式にする？")
+    content: str = Field("", description="報告内容、選択式にする？")
 
     @classmethod
     def __get_validators__(cls):
