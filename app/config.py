@@ -16,3 +16,6 @@ MYNA_API_TOKEN = environ.get("MYNA_API_TOKEN", "")
 
 # FireStoreの認証キー
 CRED_PATH = environ.get("CRED_PATH", "app/key/credential.json")
+GOOGLE_CLOUD_STORAGE_BUCKET_NAME = environ.get(
+    "GOOGLE_CLOUD_STORAGE_BUCKET_NAME", "myna-safety"
+)

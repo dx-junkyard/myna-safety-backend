@@ -1,3 +1,4 @@
+import json
 from fastapi.testclient import TestClient
 from app.main import app
 
@@ -19,7 +20,16 @@ def test_post_user_report(mocker):
     )
 
     # When
-    response = client.post("/report", json=request_body)
+    response = client.post(
+        "/report",
+        files={
+            "request": (
+                None,
+                json.dumps(request_body),
+            ),
+            "file": open("./tests/assets/sample.jpeg", "rb"),
+        },
+    )
 
     # Then
     assert response.status_code == 200

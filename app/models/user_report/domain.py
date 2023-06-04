@@ -29,6 +29,7 @@ class UserReportModel(BaseModel):
     user_report_id: str = Field(..., description="申告ID")
     location: Location = Field(..., description="申告者の位置情報")
     content: str = Field(..., description="報告内容、選択式にする？")
+    image_url: Union[str, None] = Field(None, description="画像のURL")
     report_level: ReportLevel = Field(..., description="申告内容の深刻度")
     report_status: ReportStatus = Field(..., description="申告内容の状態")
     created_at: datetime = Field(now(), description="作成時間")

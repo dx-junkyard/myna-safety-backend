@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from typing import Optional
+from fastapi import APIRouter, Body, File, UploadFile
 from app.models.user_report.list_user_reports import ListUserReportResponse
 from app.models.user_report.entry_user_report import (
     EntryUserReportRequest,
@@ -18,9 +19,12 @@ user_report_router = APIRouter(prefix="/report", tags=["report"])
 
 
 @user_report_router.post("", response_model=EntryUserReportResponse)
-async def post_user_report(request: EntryUserReportRequest):
+async def post_user_report(
+    request: EntryUserReportRequest = Body(...),
+    file: Optional[UploadFile] = File(None),
+):
     """ユースケース1: ユーザがHelpを申請する"""
-    user_report_id = entry_user_report_service.execute(request)
+    user_report_id = await entry_user_report_service.execute(request, file)
     return EntryUserReportResponse(request_id=user_report_id)
 
 
