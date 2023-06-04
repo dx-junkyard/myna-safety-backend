@@ -19,6 +19,17 @@ def add_user_report(id: str, content: UserReportModel):
     db.add(collection=COLLECTION_PREFIX, id=id, content=content.dict())
 
 
+def fetch_user_report(id: str) -> UserReportModel:
+    """ユーザレポートの検索
+
+    Args:
+        id (str): ユーザレポートid
+    """
+    return UserReportModel.parse_obj(
+        db.fetch(collection=COLLECTION_PREFIX, id=id)
+    )
+
+
 def update_user_report(id: str, content: UpdateUserReportRequestDto):
     """ユーザレポートの更新
 

@@ -25,16 +25,22 @@ async def post_user_report(
 ):
     """ユースケース1: ユーザがHelpを申請する"""
     user_report_id = await entry_user_report_service.execute(request, file)
-    return EntryUserReportResponse(request_id=user_report_id)
+    return EntryUserReportResponse(user_report_id=user_report_id)
 
 
 @user_report_router.put(
-    "/{request_id}", response_model=UpdateUserReportResponse
+    "/{user_report_id}", response_model=UpdateUserReportResponse
 )
-async def put_user_report(request_id: str, request: UpdateUserReportRequest):
+async def put_user_report(
+    user_report_id: str,
+    request: UpdateUserReportRequest = Body(...),
+    file: Optional[UploadFile] = File(None),
+):
     """ユースケース3: ユーザがヘルプ情報を更新する"""
-    user_report_id = update_user_report_service.execute(request_id, request)
-    return UpdateUserReportResponse(request_id=user_report_id)
+    user_report_id = await update_user_report_service.execute(
+        user_report_id, request, file
+    )
+    return UpdateUserReportResponse(user_report_id=user_report_id)
 
 
 @user_report_router.get("", response_model=ListUserReportResponse)

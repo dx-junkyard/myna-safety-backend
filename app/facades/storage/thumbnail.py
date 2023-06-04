@@ -5,7 +5,7 @@ from app.facades.storage import gcs
 import app.config as config
 
 
-FOLDER_NAME = "THUMBNAIL"
+FOLDER_NAME = "thumbnail"
 TEMP_FOLDER_NAME = "./temp/thumbnail"
 IMAGE_URL = f"https://storage.cloud.google.com/{config.GOOGLE_CLOUD_STORAGE_BUCKET_NAME}"
 

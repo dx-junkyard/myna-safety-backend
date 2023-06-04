@@ -1,5 +1,5 @@
 from io import BytesIO
-from typing import Union
+from typing import Optional, Union
 from fastapi import UploadFile
 from app.facades.storage import thumbnail
 from app.models.user_report.domain import (
@@ -14,7 +14,7 @@ from PIL import Image
 
 
 async def execute(
-    request: EntryUserReportRequest, file: Union[UploadFile, None]
+    request: EntryUserReportRequest, file: Optional[UploadFile]
 ) -> str:
     """ユーザレポートを登録する
 
@@ -26,10 +26,11 @@ async def execute(
     """
     id = generate_id_str()
 
-    print(file)
-    thumbnail_url = (
-        await _upload_thumbnail_image(id, file=file) if file else None
-    )
+    if file:
+        thumbnail_url = await _upload_thumbnail_image(id, file=file)
+    else:
+        thumbnail_url = None
+
     user_report_model: UserReportModel = UserReportModel.parse_obj(
         {
             **request.dict(),

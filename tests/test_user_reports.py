@@ -34,15 +34,14 @@ def test_post_user_report(mocker):
     # Then
     assert response.status_code == 200
     response_body = response.json()
-    assert "request_id" in response_body
+    assert "user_report_id" in response_body
 
 
 def test_put_user_report(mocker):
     test_post_user_report(mocker)
     # Given
-    request_id = "abc"
+    user_report_id = "abc"
     request_body = {
-        "user_id": 2,
         "location": {"longitude": 234, "latitude": 987},
         "content": "Need help with something",
         "report_level": "High",
@@ -50,12 +49,21 @@ def test_put_user_report(mocker):
     }
 
     # When
-    response = client.put(f"/report/{request_id}", json=request_body)
+    response = client.put(
+        f"/report/{user_report_id}",
+        files={
+            "request": (
+                None,
+                json.dumps(request_body),
+            ),
+            "file": open("./tests/assets/sample.jpeg", "rb"),
+        },
+    )
 
     # Then
     assert response.status_code == 200
     response_body = response.json()
-    assert "request_id" in response_body
+    assert "user_report_id" in response_body
 
 
 def test_get_user_reports(mocker):
