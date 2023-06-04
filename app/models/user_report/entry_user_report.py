@@ -23,4 +23,4 @@ class EntryUserReportRequest(BaseModel):
 
 
 class EntryUserReportResponse(BaseModel):
-    request_id: str = Field(..., description="申告に対するリクエストID")
+    user_request_id: str = Field(..., description="発行された申告ID")

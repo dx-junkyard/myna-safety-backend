@@ -21,4 +21,4 @@ class UpdateUserReportRequestDto(UpdateUserReportRequest):
 
 
 class UpdateUserReportResponse(BaseModel):
-    request_id: str = Field(..., description="申告に対するリクエストID")
+    user_request_id: str = Field(..., description="発行された申告ID")
