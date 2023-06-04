@@ -22,6 +22,7 @@ def execute(request: EntryUserReportRequest) -> str:
     user_report_model: UserReportModel = UserReportModel.parse_obj(
         {
             **request.dict(),
+            "user_report_id": id,
             "report_level": ReportLevel.MIDDLE,
             "report_status": ReportStatus.NO_ASSIGN,
             "created_at": now(),

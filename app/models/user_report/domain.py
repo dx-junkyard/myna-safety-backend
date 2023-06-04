@@ -26,6 +26,7 @@ class ReportStatus(str, Enum):
 
 class UserReportModel(BaseModel):
     user_id: str = Field(..., description="UserID、LINEのIDなど？")
+    user_report_id: str = Field(..., description="申告ID")
     location: Location = Field(..., description="申告者の位置情報")
     content: str = Field(..., description="報告内容、選択式にする？")
     report_level: ReportLevel = Field(..., description="申告内容の深刻度")
