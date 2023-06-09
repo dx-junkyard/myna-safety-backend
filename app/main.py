@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from .routes.line_bot_callback_route import line_bot_callback_router
 from .routes.user_report_route import user_report_router
+from .routes.user_report_feedback_route import user_report_feedback_router
 
 
 def get_application() -> FastAPI:
@@ -18,6 +19,7 @@ def get_application() -> FastAPI:
     )
     app.include_router(line_bot_callback_router)
     app.include_router(user_report_router)
+    app.include_router(user_report_feedback_router)
     return app
 
 

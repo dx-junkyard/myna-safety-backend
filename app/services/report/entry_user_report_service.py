@@ -1,5 +1,5 @@
 from io import BytesIO
-from typing import Optional, Union
+from typing import Optional
 from fastapi import UploadFile
 from app.facades.storage import thumbnail
 from app.models.user_report.domain import (
@@ -46,11 +46,7 @@ async def execute(
     return id
 
 
-def add_report(
-    user_id: str,
-    latitude: float,
-    longitude: float
-) -> str:
+def add_report(user_id: str, latitude: float, longitude: float) -> str:
     id = generate_id_str()
 
     user_report_model: UserReportModel = UserReportModel.parse_obj(
@@ -58,7 +54,7 @@ def add_report(
             "user_id": user_id,  # TODO: 仮の値を入れている
             "user_report_id": id,
             "location": Location(latitude=latitude, longitude=longitude),
-            "content": '',
+            "content": "",
             "image_url": None,
             "report_level": ReportLevel.MIDDLE,
             "report_status": ReportStatus.NO_ASSIGN,
