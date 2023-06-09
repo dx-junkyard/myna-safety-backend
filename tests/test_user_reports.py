@@ -8,9 +8,9 @@ client = TestClient(app)
 
 def test_post_user_report(mocker):
     # Given
-    test_user_report_id = "abc"
+    test_user_report_id = "xyz"
     request_body = {
-        "user_id": 1,
+        "user_id": "test_user_id",
         "location": {"longitude": 123, "latitude": 943},
         "content": "Need help with something",
     }
@@ -40,7 +40,7 @@ def test_post_user_report(mocker):
 def test_put_user_report(mocker):
     test_post_user_report(mocker)
     # Given
-    user_report_id = "abc"
+    user_report_id = "xyz"
     request_body = {
         "location": {"longitude": 234, "latitude": 987},
         "content": "Need help with something",

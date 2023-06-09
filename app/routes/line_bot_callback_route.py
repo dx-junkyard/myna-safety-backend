@@ -1,5 +1,5 @@
 from fastapi import APIRouter, BackgroundTasks, Header, Request
-from linebot import LineBotApi, WebhookHandler
+from linebot import WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import (
     MessageEvent,
@@ -7,16 +7,15 @@ from linebot.models import (
     QuickReply,
     QuickReplyButton,
     LocationAction,
-    )
+)
 from starlette.exceptions import HTTPException
 from app import config
 from app.facades.chatgpt import ChatGPT
+from app.facades.line_bot import line_message
 from app.services.report.entry_user_report_service import add_report
-import hashlib
 
 
 line_bot_callback_router = APIRouter(prefix="", tags=["line_bot"])
-line_bot_api = LineBotApi(config.LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(config.LINE_CHANNEL_SECRET)
 chat = ChatGPT()
 
@@ -42,7 +41,6 @@ async def callback(
 
 @handler.add(MessageEvent)
 def handle_message(event):
-
     reply = None
 
     if event.type == "message" and event.message.type == "location":
@@ -50,16 +48,14 @@ def handle_message(event):
         reply = [
             TextSendMessage(text="位置情報の入力を確認しました"),
             TextSendMessage(text="続いて被害状況を下記のフォームから入力してください"),
-            TextSendMessage(text=get_liff_url(id))
+            TextSendMessage(text=get_liff_url(id)),
         ]
     elif event.type != "message" or event.message.type != "text":
         reply = TextSendMessage(text="申し訳ありません。入力を受け付けることができませんでした")
     else:
         reply = create_message(event.message.text)
 
-    line_bot_api.reply_message(
-        event.reply_token, messages=reply
-    )
+    line_message.reply_message(event.reply_token, messages=reply)
 
 
 def get_liff_url(id: str) -> str:
@@ -73,8 +69,9 @@ def create_message(msg: str | None):
         ]
         return [
             TextSendMessage(text="救援要請を受け付けました"),
-            TextSendMessage(text="被害の発生した場所を教えてください",
-                            quick_reply=QuickReply(items=reply))
+            TextSendMessage(
+                text="被害の発生した場所を教えてください", quick_reply=QuickReply(items=reply)
+            ),
         ]
     elif msg is not None:
         return TextSendMessage(text=chat.request(msg))
@@ -84,7 +81,8 @@ def create_message(msg: str | None):
 
 def save_location(event):
     return add_report(
-        # sha256でユーザーIDをハッシュ化
-        hashlib.sha256(event.source.user_id.encode()).hexdigest(),
-        event.message.latitude, 
-        event.message.longitude)
+        # TODO: ハッシュ化すると通知できなくなるので解除
+        event.source.user_id,
+        event.message.latitude,
+        event.message.longitude,
+    )
