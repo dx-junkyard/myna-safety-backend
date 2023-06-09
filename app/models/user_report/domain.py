@@ -2,7 +2,10 @@ from datetime import datetime
 from enum import Enum
 from typing import Union
 from pydantic import BaseModel, Field
-from app.models.user_report_feedback.domain import UserReportFeedbackComment
+from app.models.user_report_feedback.domain import (
+    UserReportFeedbackComment,
+    UserReportFeedbackReaction,
+)
 
 from app.utils import now
 
@@ -40,4 +43,8 @@ class UserReportModel(BaseModel):
 
     user_report_feedback_comments: list[UserReportFeedbackComment] = Field(
         [], description="申告に対するフィードバックコメント"
+    )
+
+    user_report_feedback_reactions: list[UserReportFeedbackReaction] = Field(
+        [], description="申告に対するリアクション"
     )

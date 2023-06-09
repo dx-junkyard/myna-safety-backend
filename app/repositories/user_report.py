@@ -3,7 +3,10 @@ from app.models.user_report.domain import UserReportModel
 from app.models.user_report.update_user_report import (
     UpdateUserReportRequestDto,
 )
-from app.models.user_report_feedback.domain import UserReportFeedbackComment
+from app.models.user_report_feedback.domain import (
+    UserReportFeedbackComment,
+    UserReportFeedbackReaction,
+)
 
 from app.repositories import db
 
@@ -40,6 +43,19 @@ def add_comment(id: str, content: UserReportFeedbackComment):
     """
     ur = fetch_user_report(id)
     ur.user_report_feedback_comments.append(content)
+
+    db.add(collection=COLLECTION_PREFIX, id=id, content=ur.dict())
+
+
+def add_reaction(id: str, content: UserReportFeedbackReaction):
+    """リアクションを登録する
+
+    Args:
+        id (str): _description_
+        content (UserReportFeedbackComment): _description_
+    """
+    ur = fetch_user_report(id)
+    ur.user_report_feedback_reactions.append(content)
 
     db.add(collection=COLLECTION_PREFIX, id=id, content=ur.dict())
 

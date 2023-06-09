@@ -20,3 +20,17 @@ class UserReportFeedbackComment(BaseModel):
 
     created_at: datetime = Field(now(), description="作成時間")
     updated_at: Union[datetime, None] = Field(None, description="最終更新時間")
+
+
+class UserReportFeedbackReaction(BaseModel):
+    """ユーザリクエストに対するリアクションに含める項目"""
+
+    user_report_feedback_reaction_id: str = Field(..., description="リアクションID")
+    user_id: str = Field(..., description="投稿者のユーザID")
+    location: Union[Location, None] = Field(None, description="投稿者の位置情報")
+    reaction: str = Field(
+        "", description="リアクション内容(フロントで表示を切り替えるためここでは任意の文字列を入れる)"
+    )
+
+    created_at: datetime = Field(now(), description="作成時間")
+    updated_at: Union[datetime, None] = Field(None, description="最終更新時間")
