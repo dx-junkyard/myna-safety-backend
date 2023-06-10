@@ -1,12 +1,8 @@
-import json
-
 from fastapi.testclient import TestClient
 
 from app.models.user.update_user_report import (
     UpdateUserRequest,
-    UpdateUserResponse,
 )
-from app.services.user import put_user_service
 
 from app.main import app
 
