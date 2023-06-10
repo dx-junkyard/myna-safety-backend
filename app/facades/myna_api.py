@@ -31,6 +31,6 @@ class MynaApi:
         )
 
 
-ma = MynaApi()
-print(ma.request("1234", "90").json())
-print(ma.request("1234", "1").json())
+myna_api = MynaApi()
+# print(myna_api.request("1234", "90").json())
+# print(myna_api.request("1234", "1").json())
