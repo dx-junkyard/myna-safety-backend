@@ -55,7 +55,10 @@ JSON以外の情報は削除する。
 
     @staticmethod
     def _convert_json(response: str):
-        return json.loads(response)
+        try:
+            return json.loads(response)
+        except:
+            return {}
 
 
 chatGPT = ChatGPT()
