@@ -7,6 +7,7 @@ from app.models.user_report_feedback.domain import (
     UserReportFeedbackComment,
     UserReportFeedbackReaction,
 )
+from google.cloud import firestore
 
 from app.repositories import db
 
@@ -91,5 +92,15 @@ def list_user_report() -> List[UserReportModel]:
         List[UserReportModel]: 一覧
     """
 
-    user_reports = db().collection(COLLECTION_PREFIX).stream()
+    user_reports_ref = db().collection(COLLECTION_PREFIX)
+
+    # 直近100件のみ表示
+    user_reports = (
+        user_reports_ref.order_by(
+            "report_score", direction=firestore.Query.DESCENDING
+        )
+        .limit(100)
+        .stream()
+    )
+
     return [UserReportModel.parse_obj(r.to_dict()) for r in user_reports]
