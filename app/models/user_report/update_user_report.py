@@ -32,7 +32,7 @@ class UpdateUserReportRequest(BaseModel):
 
 class UpdateUserReportRequestDto(UpdateUserReportRequest):
     updated_at: Union[datetime, None] = Field(None, description="最終更新時間")
-    image_url: str = Field(..., description="画像のURL")
+    image_url: Union[datetime, None] = Field(None, description="画像のURL")
 
 
 class UpdateUserReportResponse(BaseModel):
