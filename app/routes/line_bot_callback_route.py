@@ -91,7 +91,7 @@ def create_entry_form_request_message(id):
 
 
 def get_liff_url(id: str) -> str:
-    return f"https://liff.line.me/1661252954-Gl9zJ1wY/?report_id={id}"
+    return f"https://liff.line.me/1661252954-Gl9zJ1wY/report/?report_id={id}"
 
 
 def create_message(msg: str | None):
