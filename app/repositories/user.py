@@ -12,3 +12,13 @@ def add_user(id: str, content: User):
         content (UserReportModel): 登録するユーザレポートの内容
     """
     db.add(collection=COLLECTION_PREFIX, id=id, content=content.dict())
+
+
+def fetch_user(id: str) -> User:
+    """ユーザの検索
+
+    Args:
+        id (str): ユーザid
+    """
+    print(db.fetch(collection=COLLECTION_PREFIX, id=id))
+    return User.parse_obj(db.fetch(collection=COLLECTION_PREFIX, id=id))

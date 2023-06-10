@@ -41,6 +41,7 @@ class UserReportModel(BaseModel):
 
     report_level: ReportLevel = Field(..., description="申告内容の深刻度")
     report_status: ReportStatus = Field(..., description="申告内容の状態")
+    report_score: int = Field(0, description="申告者のスコア")
 
     created_at: datetime = Field(now(), description="作成時間")
     updated_at: Union[datetime, None] = Field(None, description="最終更新時間")

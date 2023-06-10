@@ -9,7 +9,7 @@ from app.models.user_report.domain import (
     UserReportModel,
 )
 from app.models.user_report.entry_user_report import EntryUserReportRequest
-from app.repositories import user_report
+from app.repositories import user, user_report
 from app.utils import generate_id_str, now
 from PIL import Image
 from app.facades.chatgpt import chatGPT
@@ -33,11 +33,15 @@ async def execute(
     else:
         thumbnail_url = None
 
+    target_user = user.fetch_user(request.user_id)
+    report_score = target_user.score if target_user else -1
+
     user_report_model: UserReportModel = UserReportModel.parse_obj(
         {
             **request.dict(),
             **chatGPT.create_report_title(request.content).dict(),
             "user_report_id": id,
+            "report_score": report_score,
             "report_status": ReportStatus.NO_ASSIGN,
             "created_at": now(),
             "image_url": thumbnail_url,
