@@ -13,14 +13,13 @@ from linebot.models import (
 )
 from starlette.exceptions import HTTPException
 from app import config
-from app.facades.chatgpt import ChatGPT
+from app.facades.chatgpt import chatGPT
 from app.facades.line_bot import line_message
 from app.services.report.entry_user_report_service import add_report
 
 
 line_bot_callback_router = APIRouter(prefix="", tags=["line_bot"])
 handler = WebhookHandler(config.LINE_CHANNEL_SECRET)
-chat = ChatGPT()
 
 
 @line_bot_callback_router.post("/callback")
@@ -107,7 +106,7 @@ def create_message(msg: str | None):
             ),
         ]
     elif msg is not None:
-        return TextSendMessage(text=chat.request(msg))
+        return TextSendMessage(text=chatGPT.request(msg))
     else:
         return TextSendMessage(text="申し訳ありません。入力を受け付けることができませんでした")
 

@@ -19,6 +19,7 @@ class ReportLevel(str, Enum):
     HIGHT = "High"  # 重度
     MIDDLE = "Middle"  # 中度
     LOW = "Low"  # 軽度
+    UnKnown = "UnKnown"  # 軽度
 
 
 class ReportStatus(str, Enum):
@@ -32,6 +33,9 @@ class UserReportModel(BaseModel):
     user_id: str = Field(..., description="UserID、LINEのIDなど？")
     user_report_id: str = Field(..., description="申告ID")
     location: Location = Field(..., description="申告者の位置情報")
+    title: str = Field(
+        "タイトルなし", description="画面に表示されるタイトル。報告内容などからChatGPTから自動で生成される"
+    )
     content: str = Field(..., description="報告内容、選択式にする？")
     image_url: Union[str, None] = Field(None, description="画像のURL")
 
@@ -47,4 +51,13 @@ class UserReportModel(BaseModel):
 
     user_report_feedback_reactions: list[UserReportFeedbackReaction] = Field(
         [], description="申告に対するリアクション"
+    )
+
+
+class CreateChatReport(BaseModel):
+    title: str = Field(
+        "タイトルなし", description="画面に表示されるタイトル。報告内容などからChatGPTから自動で生成される"
+    )
+    report_level: ReportLevel = Field(
+        ReportLevel.MIDDLE, description="申告内容の深刻度"
     )

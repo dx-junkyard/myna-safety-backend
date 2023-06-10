@@ -12,6 +12,7 @@ from app.models.user_report.entry_user_report import EntryUserReportRequest
 from app.repositories import user_report
 from app.utils import generate_id_str, now
 from PIL import Image
+from app.facades.chatgpt import chatGPT
 
 
 async def execute(
@@ -35,8 +36,8 @@ async def execute(
     user_report_model: UserReportModel = UserReportModel.parse_obj(
         {
             **request.dict(),
+            **chatGPT.create_report_title(request.content).dict(),
             "user_report_id": id,
-            "report_level": ReportLevel.MIDDLE,
             "report_status": ReportStatus.NO_ASSIGN,
             "created_at": now(),
             "image_url": thumbnail_url,
@@ -56,7 +57,7 @@ def add_report(user_id: str, latitude: float, longitude: float) -> str:
             "location": Location(latitude=latitude, longitude=longitude),
             "content": "",
             "image_url": None,
-            "report_level": ReportLevel.MIDDLE,
+            "report_level": ReportLevel.UnKnown,
             "report_status": ReportStatus.NO_ASSIGN,
             "created_at": now(),
         },

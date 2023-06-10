@@ -12,6 +12,9 @@ from app.models.user_report.domain import (
 
 class UpdateUserReportRequest(BaseModel):
     location: Location = Field(..., description="申告者の位置情報")
+    title: str = Field(
+        "タイトルなし", description="画面に表示されるタイトル。報告内容などからChatGPTから自動で生成される"
+    )
     content: str = Field(..., description="報告内容、選択式にする？")
     report_level: ReportLevel = Field(..., description="申告内容の深刻度")
     report_status: ReportStatus = Field(..., description="申告内容の状態")

@@ -8,6 +8,7 @@ from app.models.user_report.update_user_report import (
     UpdateUserReportRequestDto,
 )
 from app.repositories import user_report
+from app.facades.chatgpt import chatGPT
 from app.utils import now
 
 
@@ -38,6 +39,7 @@ async def execute(
         UpdateUserReportRequestDto.parse_obj(
             {
                 **request.dict(),
+                **chatGPT.create_report_title(request.content).dict(),
                 "updated_at": now(),
                 "image_url": update_image_url,
             },
