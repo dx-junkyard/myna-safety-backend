@@ -15,7 +15,7 @@ def test_post_user_report(mocker, content):
     test_user_report_id = "xyz"
     request_body = {
         "user_id": "test_user_id",
-        "location": {"longitude": 123, "latitude": 943},
+        "location": {"longitude": 139.782359, "latitude": 35.703813},
         "content": content,
     }
     mocker.patch(

@@ -10,7 +10,7 @@ from app.models.user_report.domain import (
 )
 from app.models.user_report.entry_user_report import EntryUserReportRequest
 from app.repositories import user, user_report
-from app.utils import generate_id_str, now
+from app.utils import convert_address, generate_id_str, now
 from PIL import Image
 from app.facades.chatgpt import chatGPT
 
@@ -43,6 +43,7 @@ async def execute(
             "user_report_id": id,
             "report_score": report_score,
             "report_status": ReportStatus.NO_ASSIGN,
+            "address": convert_address(request.location),
             "created_at": now(),
             "image_url": thumbnail_url,
         },
@@ -53,14 +54,16 @@ async def execute(
 
 def add_report(user_id: str, latitude: float, longitude: float) -> str:
     id = generate_id_str()
+    location = Location(latitude=latitude, longitude=longitude)
 
     user_report_model: UserReportModel = UserReportModel.parse_obj(
         {
             "user_id": user_id,  # TODO: 仮の値を入れている
             "user_report_id": id,
-            "location": Location(latitude=latitude, longitude=longitude),
+            "location": location,
             "content": "",
             "image_url": None,
+            "address": convert_address(location),
             "report_level": ReportLevel.UnKnown,
             "report_status": ReportStatus.NO_ASSIGN,
             "created_at": now(),

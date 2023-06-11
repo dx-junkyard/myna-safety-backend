@@ -39,6 +39,8 @@ class UserReportModel(BaseModel):
     content: str = Field(..., description="報告内容、選択式にする？")
     image_url: Union[str, None] = Field(None, description="画像のURL")
 
+    address: Union[str, None] = Field("", description="住所")
+
     report_level: ReportLevel = Field(..., description="申告内容の深刻度")
     report_status: ReportStatus = Field(..., description="申告内容の状態")
     report_score: int = Field(0, description="申告者のスコア")

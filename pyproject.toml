@@ -17,6 +17,7 @@ firebase-admin = "^6.1.0"
 pillow = "^9.5.0"
 google-cloud-storage = "^2.9.0"
 python-multipart = "^0.0.6"
+geopy = "^2.3.0"
 
 
 [tool.poetry.group.dev.dependencies]
