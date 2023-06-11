@@ -2,7 +2,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from .routes.line_bot_callback_route import line_bot_callback_router
-from .routes.user_report_route import user_report_router
+from .routes.user_report_route import (
+    user_report_router,
+    __dummy_user_report_router,
+)
 from .routes.user_report_feedback_route import user_report_feedback_router
 from .routes.user_route import user_router
 
@@ -22,6 +25,7 @@ def get_application() -> FastAPI:
     app.include_router(user_report_router)
     app.include_router(user_report_feedback_router)
     app.include_router(line_bot_callback_router)
+    app.include_router(__dummy_user_report_router)
     return app
 
 

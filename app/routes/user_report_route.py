@@ -1,5 +1,6 @@
 from typing import Optional
 from fastapi import APIRouter, Body, File, UploadFile
+from sqlalchemy import true
 from app.facades.line_bot.line_message import push_message
 from app.models.user_report.list_user_reports import ListUserReportResponse
 from app.models.user_report.entry_user_report import (
@@ -16,9 +17,7 @@ from app.services.report import (
     list_user_report_service,
     update_user_report_service,
 )
-from linebot.models import (
-    TextSendMessage
-)
+from linebot.models import TextSendMessage
 
 import json
 
@@ -62,3 +61,24 @@ async def get_user_reports():
     """ユースケース2: 申告内容の一覧を取得する"""
     list_user_report = list_user_report_service.execute()
     return ListUserReportResponse(user_reports=list_user_report)
+
+
+__dummy_user_report_router = APIRouter(
+    prefix="/__dummy_report", deprecated=true
+)
+
+
+@__dummy_user_report_router.post("__dummy_post", deprecated=true)
+async def _dummy_post_user_report(
+    request: EntryUserReportRequest,
+):
+    """openapi-generatorの生成用"""
+    pass
+
+
+@__dummy_user_report_router.put("__dummy_put", deprecated=true)
+async def _dummy_put_user_report(
+    request: UploadFile,
+):
+    """openapi-generatorの生成用"""
+    pass
