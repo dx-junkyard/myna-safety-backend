@@ -1,3 +1,6 @@
+🏅 2023年/マイナポータルハッカソン 一般審査委員特別賞 受賞
+- [参考](https://www.digital.go.jp/policies/myna_portal/hackathon/)
+
 # Myna Safety Backend
 
 マイナポータルハッカソンのバックエンドです。
