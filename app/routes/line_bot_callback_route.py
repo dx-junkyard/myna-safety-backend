@@ -72,7 +72,7 @@ def create_entry_form_request_message(id):
             template=ButtonsTemplate(
                 text="続いて詳細を下記のフォームから入力してください",
                 image_size="cover",
-                thumbnail_image_url=config.LINEBOT_ENTRY_FORM_REQEST_THUMBNAIL_URL,
+                thumbnail_image_url=config.LINEBOT_ENTRY_FORM_REQUEST_THUMBNAIL_URL,
                 image_background_color="#FFFFFF",
                 actions=[
                     URIAction(
